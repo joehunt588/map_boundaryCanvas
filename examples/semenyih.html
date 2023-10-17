@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>UK Boundary Canvas</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+		/>
+		<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet-src.js"></script>
+		<script src="https://cdn.rawgit.com/aparshin/leaflet-boundary-canvas/f00b4d35/src/BoundaryCanvas.js"></script>
+	</head>
+	<body>
+		<div id="map" style="height: 500px"></div>
+		<script>
+			var map = L.map("map");
+			const mapdata = {
+				type: "FeatureCollection",
+				features: [
+					{
+						type: "Feature",
+						properties: {},
+						geometry: {
+							coordinates: [
+								[
+									[101.83673718588085, 2.9637844252524417],
+									[101.83775135814926, 2.93171146413043],
+									[101.87459961722897, 2.952643396239935],
+									[101.83673718588085, 2.9637844252524417],
+								],
+							],
+							type: "Polygon",
+						},
+					},
+				],
+			};
+
+			let geoJSON = mapdata;
+			var osm = new L.TileLayer.BoundaryCanvas(
+				"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+				{
+					boundary: geoJSON,
+					attribution:
+						'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, UK shape <a href="https://github.com/johan/world.geo.json">johan/word.geo.json</a>',
+				}
+			);
+			map.addLayer(osm);
+			var ukLayer = L.geoJSON(geoJSON);
+			map.fitBounds(ukLayer.getBounds());
+			// $.getJSON(
+			// 	"https://cdn.rawgit.com/johan/world.geo.json/34c96bba/countries/GBR.geo.json"
+			// ).then(function (geoJSON) {
+			// 	var osm = new L.TileLayer.BoundaryCanvas(
+			// 		"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+			// 		{
+			// 			boundary: geoJSON,
+			// 			attribution:
+			// 				'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, UK shape <a href="https://github.com/johan/world.geo.json">johan/word.geo.json</a>',
+			// 		}
+			// 	);
+			// 	map.addLayer(osm);
+			// 	var ukLayer = L.geoJSON(geoJSON);
+			// 	map.fitBounds(ukLayer.getBounds());
+			// });
+		</script>
+	</body>
+</html>
